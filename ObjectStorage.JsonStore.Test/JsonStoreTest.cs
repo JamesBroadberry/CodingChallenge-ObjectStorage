@@ -14,8 +14,7 @@ namespace ObjectStorage.JsonStore.Test
         // Setup
         public JsonStoreTest()
         {
-            _rootFileLocation = Path.Combine(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location)!,
-                "StorageLocation");
+            _rootFileLocation = Path.Combine(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location)!, "StorageLocation");
         }
 
         // Teardown
@@ -218,7 +217,7 @@ namespace ObjectStorage.JsonStore.Test
         public void WhenAttemptingToUseJsonStoreWithUnauthorizedDirectory_ExceptionIsThrown()
         {
             // Arrange
-            var store = new JsonStore("C:\\"); // This will only break on Windows - could make the path OS dependent
+            var store = new JsonStore("C:\\"); // This test may not run correctly on Linux - could make the path OS dependent
             var id = Guid.NewGuid();
             var itemToStore = new StorableBase
             {
@@ -259,8 +258,7 @@ namespace ObjectStorage.JsonStore.Test
 
             // Assert
             var jsonKeyToCheck = retrievedItem.Properties["key"];
-            var deserializedValue =
-                JsonSerializer.Deserialize<ExampleComplexSerializableType>(((JsonElement) jsonKeyToCheck).GetRawText());
+            var deserializedValue = JsonSerializer.Deserialize<ExampleComplexSerializableType>(((JsonElement) jsonKeyToCheck).GetRawText());
             Assert.Equal(complexValue.StringValue, deserializedValue.StringValue);
             Assert.Equal(complexValue.IntegerValue, deserializedValue.IntegerValue);
         }
@@ -283,8 +281,10 @@ namespace ObjectStorage.JsonStore.Test
             // Act
             _ = store.Put(initialItemToStore);
             var retrievedFirstTime = store.Get(id);
+
             _ = store.Put(retrievedFirstTime);
             var retrievedSecondTime = store.Get(id);
+
             _ = store.Put(retrievedSecondTime);
             var retrievedThirdTime = store.Get(id);
 

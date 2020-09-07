@@ -13,8 +13,7 @@ namespace ObjectStorage.ObjectStore.Test
         // Setup
         public ObjectStoreTest()
         {
-            _rootFileLocation = Path.Combine(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location)!,
-                "StorageLocation");
+            _rootFileLocation = Path.Combine(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location)!, "StorageLocation");
         }
 
         // Teardown
