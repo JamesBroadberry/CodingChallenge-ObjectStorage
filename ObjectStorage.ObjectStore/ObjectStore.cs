@@ -7,38 +7,36 @@ namespace ObjectStorage.ObjectStore
 {
     public class ObjectStore : IObjectStore
     {
-        private readonly JsonStore.JsonStore _jsonStore;
+        private readonly IStore _store;
 
         public ObjectStore(string rootFileLocation)
         {
-            _jsonStore = new JsonStore.JsonStore(rootFileLocation);
+            _store = new JsonStore.JsonStore(rootFileLocation);
         }
 
         public T Get<T>(Guid id) where T : IUnique
         {
-            var storedItem = _jsonStore.Get(id);
+            var storedItem = _store.Get(id);
             var convertedItem = JsonSerializer.Deserialize<T>(JsonSerializer.Serialize(storedItem.Properties));
+            
+            return convertedItem;
 
-            if (!convertedItem.Id.Equals(id))
+            // I have left this code here as an example of how the type could be built up and used instead of relying on serialization
+
+            /*
+            var itemToReturn = (T)Activator.CreateInstance(typeof(T));
+            var itemType = itemToReturn.GetType();
+
+            foreach (var propertyInfo in itemType.GetProperties())
             {
-                // Filename ID mismatches Id in file contents
+                // Setting the value here returns a JsonElement, which doesn't match the expected type so throws.
+                // Using serialization and deserialization is a safer way to achieve the same goal here without having to convert types manually.
+                // There may be a performance decrease but for this solution, works well.
+                propertyInfo.SetValue(itemToReturn, storedItem.Properties[propertyInfo.Name], null);
             }
 
-            return convertedItem;
-            
-
-            //var itemToReturn = (T)Activator.CreateInstance(typeof(T));
-            //var itemType = itemToReturn.GetType();
-
-            //foreach (var propertyInfo in itemType.GetProperties())
-            //{
-            //    // Setting the value here returns a JsonElement, which doesn't match the expected type so throws.
-            //    // Using serialization and deserialization is a safer way to achieve the same goal here without having to convert types manually.
-            //    // There may be a performance decrease but for this solution, works well.
-            //    propertyInfo.SetValue(itemToReturn, storedItem.Properties[propertyInfo.Name], null);
-            //}
-
-            //return itemToReturn;
+            return itemToReturn;
+            */
 
         }
 
@@ -53,14 +51,14 @@ namespace ObjectStorage.ObjectStore
             }
 
             var storable = new StorableBase { Id = item.Id, Properties = properties };
-            _jsonStore.Put(storable);
+            _store.Put(storable);
 
             return item;
         }
 
         public void Delete(Guid id)
         {
-            _jsonStore.Delete(id);
+            _store.Delete(id);
         }
     }
 }

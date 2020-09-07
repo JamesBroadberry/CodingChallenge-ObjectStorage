@@ -39,9 +39,10 @@ namespace ObjectStorage.JsonStore.Test
                 {
                     {"key", "value"}
                 }
-        };
+            };
+
             // Act
-            store.Put(itemToStore);
+            _ = store.Put(itemToStore);
 
             // Assert
             Assert.True(File.Exists(Path.Combine(_rootFileLocation, id.ToString())));
@@ -63,7 +64,7 @@ namespace ObjectStorage.JsonStore.Test
                 }
             };
 
-            store.Put(itemToStore);
+            _ = store.Put(itemToStore);
 
             // Act
             var storedItem = store.Get(id);
@@ -91,7 +92,7 @@ namespace ObjectStorage.JsonStore.Test
                 }
             };
 
-            store.Put(initialItemToStore);
+            _ = store.Put(initialItemToStore);
 
             // Act
             var itemToStore = new StorableBase
@@ -103,7 +104,7 @@ namespace ObjectStorage.JsonStore.Test
                 }
             };
 
-            store.Put(itemToStore);
+            _ = store.Put(itemToStore);
 
             // Assert
             Assert.Single(Directory.GetFiles(_rootFileLocation));
@@ -124,7 +125,7 @@ namespace ObjectStorage.JsonStore.Test
                 }
             };
 
-            store.Put(initialItemToStore);
+            _ = store.Put(initialItemToStore);
 
             // Act
             var itemToStore = new StorableBase
@@ -136,7 +137,7 @@ namespace ObjectStorage.JsonStore.Test
                 }
             };
 
-            store.Put(itemToStore);
+            _ = store.Put(itemToStore);
 
             var storedItem = store.Get(id);
 
@@ -186,7 +187,7 @@ namespace ObjectStorage.JsonStore.Test
                 }
             };
 
-            store.Put(initialItemToStore);
+            _ = store.Put(initialItemToStore);
 
             // Act
             store.Delete(id);
@@ -213,7 +214,7 @@ namespace ObjectStorage.JsonStore.Test
                 }
             };
 
-            store.Put(initialItemToStore);
+            _ = store.Put(initialItemToStore);
 
             // Act
             store.Delete(id);
@@ -226,7 +227,7 @@ namespace ObjectStorage.JsonStore.Test
         public void WhenAttemptingToUseJsonStoreWithUnauthorizedDirectory_ExceptionIsThrown()
         {
             // Arrange
-            var store = new JsonStore("C:\\");
+            var store = new JsonStore("C:\\"); // This will only break on Windows - could make the path OS dependent
             var id = Guid.NewGuid();
             var itemToStore = new StorableBase
             {
@@ -240,7 +241,7 @@ namespace ObjectStorage.JsonStore.Test
             // Assert
             Assert.Throws<UnauthorizedAccessException>(() =>
             {
-                store.Put(itemToStore);
+                _ = store.Put(itemToStore);
             });
         }
 
@@ -265,7 +266,7 @@ namespace ObjectStorage.JsonStore.Test
             };
 
             // Act
-            store.Put(itemToStore);
+            _ = store.Put(itemToStore);
             var retrievedItem = store.Get(id);
 
             // Assert
@@ -292,11 +293,11 @@ namespace ObjectStorage.JsonStore.Test
             };
 
             // Act
-            store.Put(initialItemToStore);
+            _ = store.Put(initialItemToStore);
             var retrievedFirstTime = store.Get(id);
-            store.Put(retrievedFirstTime);
+            _ = store.Put(retrievedFirstTime);
             var retrievedSecondTime = store.Get(id);
-            store.Put(retrievedSecondTime);
+            _ = store.Put(retrievedSecondTime);
             var retrievedThirdTime = store.Get(id);
 
             // Assert (using serialization as a quick way to deep check the values of dictionary)

@@ -40,7 +40,7 @@ namespace ObjectStorage.ObjectStore.Test
             };
 
             // Act
-            store.Put(book);
+            _ = store.Put(book);
             var retrievedBook = store.Get<Book>(id);
 
             // Assert
@@ -62,7 +62,7 @@ namespace ObjectStorage.ObjectStore.Test
             };
 
             // Act
-            store.Put(car);
+            _ = store.Put(car);
             var retrievedCar = store.Get<Car>(id);
 
             // Assert
@@ -83,7 +83,7 @@ namespace ObjectStorage.ObjectStore.Test
                 ISBN = "9781784752637"
             };
 
-            store.Put(book);
+            _ = store.Put(book);
 
             var car = new Car
             {
@@ -94,7 +94,7 @@ namespace ObjectStorage.ObjectStore.Test
             };
 
             // Act
-            store.Put(car);
+            _ = store.Put(car);
 
             // Assert
             var retrievedCar = store.Get<Car>(id);
@@ -116,7 +116,7 @@ namespace ObjectStorage.ObjectStore.Test
                 ISBN = "9781784752637"
             };
 
-            store.Put(book);
+            _ = store.Put(book);
 
             // Act
             store.Delete(id);
