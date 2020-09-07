@@ -14,7 +14,8 @@ namespace ObjectStorage.JsonStore.Test
         // Setup
         public JsonStoreTest()
         {
-            _rootFileLocation = Path.Combine(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location)!, "StorageLocation");
+            _rootFileLocation = Path.Combine(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location)!,
+                "StorageLocation");
         }
 
         // Teardown
@@ -46,7 +47,6 @@ namespace ObjectStorage.JsonStore.Test
 
             // Assert
             Assert.True(File.Exists(Path.Combine(_rootFileLocation, id.ToString())));
-
         }
 
         [Fact]
@@ -153,10 +153,7 @@ namespace ObjectStorage.JsonStore.Test
 
 
             // Assert
-            Assert.Throws<KeyNotFoundException>(() =>
-            {
-                store.Get(Guid.NewGuid());
-            });
+            Assert.Throws<KeyNotFoundException>(() => { store.Get(Guid.NewGuid()); });
         }
 
         [Fact]
@@ -166,10 +163,7 @@ namespace ObjectStorage.JsonStore.Test
             var store = new JsonStore(_rootFileLocation);
 
             // Assert
-            Assert.Throws<KeyNotFoundException>(() =>
-            {
-                store.Delete(Guid.NewGuid());
-            });
+            Assert.Throws<KeyNotFoundException>(() => { store.Delete(Guid.NewGuid()); });
         }
 
         [Fact]
@@ -193,10 +187,7 @@ namespace ObjectStorage.JsonStore.Test
             store.Delete(id);
 
             // Assert
-            Assert.Throws<KeyNotFoundException>(() =>
-            {
-                store.Get(id);
-            });
+            Assert.Throws<KeyNotFoundException>(() => { store.Get(id); });
         }
 
         [Fact]
@@ -239,10 +230,7 @@ namespace ObjectStorage.JsonStore.Test
             };
 
             // Assert
-            Assert.Throws<UnauthorizedAccessException>(() =>
-            {
-                _ = store.Put(itemToStore);
-            });
+            Assert.Throws<UnauthorizedAccessException>(() => { _ = store.Put(itemToStore); });
         }
 
         [Fact]
@@ -271,10 +259,10 @@ namespace ObjectStorage.JsonStore.Test
 
             // Assert
             var jsonKeyToCheck = retrievedItem.Properties["key"];
-            var deserializedValue = JsonSerializer.Deserialize<ExampleComplexSerializableType>(((JsonElement)jsonKeyToCheck).GetRawText());
+            var deserializedValue =
+                JsonSerializer.Deserialize<ExampleComplexSerializableType>(((JsonElement) jsonKeyToCheck).GetRawText());
             Assert.Equal(complexValue.StringValue, deserializedValue.StringValue);
             Assert.Equal(complexValue.IntegerValue, deserializedValue.IntegerValue);
-
         }
 
         [Fact]

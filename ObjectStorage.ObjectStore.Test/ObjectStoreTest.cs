@@ -13,7 +13,8 @@ namespace ObjectStorage.ObjectStore.Test
         // Setup
         public ObjectStoreTest()
         {
-            _rootFileLocation = Path.Combine(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location)!, "StorageLocation");
+            _rootFileLocation = Path.Combine(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location)!,
+                "StorageLocation");
         }
 
         // Teardown
@@ -122,10 +123,7 @@ namespace ObjectStorage.ObjectStore.Test
             store.Delete(id);
 
             // Assert
-            Assert.Throws<KeyNotFoundException>(() =>
-            {
-                store.Get<Book>(id);
-            });
+            Assert.Throws<KeyNotFoundException>(() => { store.Get<Book>(id); });
         }
     }
 }

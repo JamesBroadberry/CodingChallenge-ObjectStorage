@@ -6,5 +6,4 @@ namespace ObjectStorage.JsonStore
     {
         Guid Id { get; }
     }
-
 }

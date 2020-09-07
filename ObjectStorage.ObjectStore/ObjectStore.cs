@@ -18,7 +18,7 @@ namespace ObjectStorage.ObjectStore
         {
             var storedItem = _store.Get(id);
             var convertedItem = JsonSerializer.Deserialize<T>(JsonSerializer.Serialize(storedItem.Properties));
-            
+
             return convertedItem;
 
             // I have left this code here as an example of how the type could be built up and used instead of relying on serialization
@@ -37,7 +37,6 @@ namespace ObjectStorage.ObjectStore
 
             return itemToReturn;
             */
-
         }
 
         public T Put<T>(T item) where T : IUnique
@@ -46,11 +45,9 @@ namespace ObjectStorage.ObjectStore
             var properties = new Dictionary<string, object>();
 
             foreach (var propertyInfo in type.GetProperties())
-            {
                 properties.Add(propertyInfo.Name, propertyInfo.GetValue(item));
-            }
 
-            var storable = new StorableBase { Id = item.Id, Properties = properties };
+            var storable = new StorableBase {Id = item.Id, Properties = properties};
             _store.Put(storable);
 
             return item;

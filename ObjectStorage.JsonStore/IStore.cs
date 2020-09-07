@@ -8,5 +8,4 @@ namespace ObjectStorage.JsonStore
         IStorable Put(IStorable item);
         void Delete(Guid id);
     }
-
 }
